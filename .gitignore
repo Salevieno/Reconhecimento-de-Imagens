@@ -1,0 +1,20 @@
+# Dependências locais
+lib/
+
+# Arquivos compilados
+*.class
+bin/
+out/
+build/
+
+# VS Code
+.vscode/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
