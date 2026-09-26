@@ -516,7 +516,7 @@ public class ReconhecimentoDeImagens extends JFrame implements ActionListener
 		ModifiedImage = ChangeImageColor(OriginalImage, area, ImageL, ImageH, PixelNewColor);
 		System.out.println("Nova imagem gerada!");
 		//int NRoofs = CountRoofs(Utg.toBufferedImage(ModifiedImage), PixelClassification);
-		//System.out.println("Número de telhados: " + NRoofs);
+		//System.out.println("Nï¿½mero de telhados: " + NRoofs);
 		GrayScaleImage1 = toGrayScale1(Utg.toBufferedImage(OriginalImage));
 		GrayScaleImage2 = Utg.toGrayScale(Utg.toBufferedImage(OriginalImage));
 	}
@@ -550,7 +550,9 @@ public class ReconhecimentoDeImagens extends JFrame implements ActionListener
 	        DF = new DrawFunctions(g);
 	        if (RunProgram)
 		    {
+                Long initialTime = System.nanoTime() ;
 	        	ReconhecimentoDeImagem();
+                System.out.println("Processing time = " + (System.nanoTime() - initialTime) * Math.pow(10, -6) + " ms");
 	        	//GetPixelColor();
 	        	//GetColorRange();
 	    		RunProgram = false;
