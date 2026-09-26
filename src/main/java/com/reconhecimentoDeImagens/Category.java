@@ -1,4 +1,4 @@
-package Components;
+package com.reconhecimentoDeImagens;
 
 import java.awt.Color;
 

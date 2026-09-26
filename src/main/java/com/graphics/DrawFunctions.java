@@ -1,4 +1,4 @@
-package Graphics;
+package com.graphics;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -10,7 +10,7 @@ import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.util.Arrays;
 
-import Main.Utg;
+import com.reconhecimentoDeImagens.Util;
 
 public class DrawFunctions
 {
@@ -45,7 +45,7 @@ public class DrawFunctions
 	}
 	public void DrawText(int[] Pos, String Text, String Alignment, float angle, String Style, int size, Color color)
     {
-		float TextLength = Utg.TextL(Text, TextFont, size, G), TextHeight = Utg.TextH(size);
+		float TextLength = Util.TextL(Text, TextFont, size, G), TextHeight = Util.TextH(size);
     	int[] Offset = new int[2];
 		AffineTransform a = null;	// Rotate rectangle
 		AffineTransform backup = G.getTransform();
@@ -56,13 +56,13 @@ public class DrawFunctions
 		else if (Alignment.equals("Center"))
     	{
 			a = AffineTransform.getRotateInstance(-angle*Math.PI/180, Pos[0], Pos[1] + 0.5*TextHeight);	// Rotate text
-    		Offset[0] = -Utg.TextL(Text, BoldTextFont, size, G)/2;
-    		Offset[1] = Utg.TextH(size)/2;
+    		Offset[0] = -Util.TextL(Text, BoldTextFont, size, G)/2;
+    		Offset[1] = Util.TextH(size)/2;
     	}
     	else if (Alignment.equals("Right"))
     	{
 			a = AffineTransform.getRotateInstance(-angle*Math.PI/180, Pos[0], Pos[1] + 0.5*TextHeight);	// Rotate text
-    		Offset[0] = -Utg.TextL(Text, BoldTextFont, size, G);
+    		Offset[0] = -Util.TextL(Text, BoldTextFont, size, G);
     	}
     	if (Style.equals("Bold"))
     	{
@@ -106,7 +106,7 @@ public class DrawFunctions
     }
 	public void DrawRoundRect(int[] Pos, String Alignment, int l, int h, int Thickness, int ArcWidth, int ArcHeight, Color color, Color ContourColor, boolean contour)
 	{
-		int[] offset = Utg.OffsetFromPos(Alignment, l, h);
+		int[] offset = Util.OffsetFromPos(Alignment, l, h);
 		G.setStroke(new BasicStroke(Thickness));
 		if (contour)
 		{
@@ -122,7 +122,7 @@ public class DrawFunctions
 	}
     public void DrawRoundRect(int[] Pos, String Alignment, int l, int h, int Thickness, int ArcWidth, int ArcHeight, Color[] colors, Color ContourColor, boolean contour)
 	{
-		int[] offset = Utg.OffsetFromPos(Alignment, l, h);
+		int[] offset = Util.OffsetFromPos(Alignment, l, h);
 		G.setStroke(new BasicStroke(Thickness));
 		if (contour)
 		{
@@ -204,10 +204,10 @@ public class DrawFunctions
 	public void PlotPoints(int[] Pos, String Title, int size, Color fillColor, Color contourColor, double[] x, double[] y)
 	{
 		DrawGraph(Pos, Title, size, Color.black);
-		double xmin = Utg.FindMin(x);
-		double xmax = Utg.FindMax(x);
-		double ymin = Utg.FindMin(y);
-		double ymax = Utg.FindMax(y);
+		double xmin = Util.FindMin(x);
+		double xmax = Util.FindMax(x);
+		double ymin = Util.FindMin(y);
+		double ymax = Util.FindMax(y);
 		
 		xmin = 0;
 		xmax = 1;
@@ -244,7 +244,7 @@ public class DrawFunctions
 			NumPoints = Var.length;
 			if (Var[0] != null)
 			{
-				MaxEver = Utg.MaxAbs(Var[0]);
+				MaxEver = Util.MaxAbs(Var[0]);
 			}
 		}
 		else
@@ -267,8 +267,8 @@ public class DrawFunctions
 							x[i] = Pos[0] + size * i / (Var[j].length - 1);
 							y[i] = Pos[1] - (int) (size * Var[j][i] / (float) MaxEver);
 						}
-						DrawText(new int[] {(int) (Pos[0] - 30), (int) (Pos[1] - 1*size)}, String.valueOf(Utg.Round(MaxEver, 2)), "Center", 0, "Bold", 13, color[j]);
-						DrawText(new int[] {(int) (Pos[0] + size + 30), (int) (y[y.length - 1])}, String.valueOf(Utg.Round(Var[j][Var[j].length - 1], 2)), "Center", 0, "Bold", 13, color[j]);
+						DrawText(new int[] {(int) (Pos[0] - 30), (int) (Pos[1] - 1*size)}, String.valueOf(Util.Round(MaxEver, 2)), "Center", 0, "Bold", 13, color[j]);
+						DrawText(new int[] {(int) (Pos[0] + size + 30), (int) (y[y.length - 1])}, String.valueOf(Util.Round(Var[j][Var[j].length - 1], 2)), "Center", 0, "Bold", 13, color[j]);
 						DrawPolyLine(x, y, 2, color[j]);
 					}
 				}
@@ -279,11 +279,11 @@ public class DrawFunctions
 	{
 		int FontSize = 13;
 		int sy = 15;
-		DrawText(Pos, "*** Parâmetros da rede neural ***", "Left", 0, "Bold", FontSize, TextColor);
-		DrawText(new int[] {Pos[0], Pos[1] + 1 * sy}, "Número de neurônios: " + String.valueOf(Arrays.toString(Nneurons)), "Left", 0, "Bold", FontSize, TextColor);
+		DrawText(Pos, "*** Parï¿½metros da rede neural ***", "Left", 0, "Bold", FontSize, TextColor);
+		DrawText(new int[] {Pos[0], Pos[1] + 1 * sy}, "Nï¿½mero de neurï¿½nios: " + String.valueOf(Arrays.toString(Nneurons)), "Left", 0, "Bold", FontSize, TextColor);
 		DrawText(new int[] {Pos[0], Pos[1] + 2 * sy}, "Bias: " + String.valueOf(ApplyBias), "Left", 0, "Bold", FontSize, TextColor);
-		DrawText(new int[] {Pos[0], Pos[1] + 3 * sy}, "Iteração: " + String.valueOf(iter), "Left", 0, "Bold", FontSize, TextColor);
-		DrawText(new int[] {Pos[0], Pos[1] + 4 * sy}, "Erro: " + String.valueOf(Utg.Round(errorperc, 2)) + "%", "Left", 0, "Bold", FontSize, TextColor);
+		DrawText(new int[] {Pos[0], Pos[1] + 3 * sy}, "Iteraï¿½ï¿½o: " + String.valueOf(iter), "Left", 0, "Bold", FontSize, TextColor);
+		DrawText(new int[] {Pos[0], Pos[1] + 4 * sy}, "Erro: " + String.valueOf(Util.Round(errorperc, 2)) + "%", "Left", 0, "Bold", FontSize, TextColor);
 	}
 	public void DrawANN(int[] pos, int[] size, int[] Nneurons, double[][] neuronvalue, double[][][] weight, boolean DrawLines, Color color)
 	{
@@ -291,7 +291,7 @@ public class DrawFunctions
 		int NeuronSize = 30;
 		int sx = (size[0] - NeuronSize * Nneurons.length) / (Nneurons.length + 1);
 		
-		double MaxWeight = Utg.FindMax(weight);
+		double MaxWeight = Util.FindMax(weight);
 		if (DrawLines)
 		{
 			for (int l = 1; l <= Nneurons.length - 1;l += 1)
@@ -324,7 +324,7 @@ public class DrawFunctions
 			{
 				int[] NeuronPos = new int[] {pos[0] + l * (sx + NeuronSize) + sx + NeuronSize / 2, pos[1] + n * (sy + NeuronSize) + sy + NeuronSize / 2};
 				DrawPoint(NeuronPos, NeuronSize, true, 2, Color.black, color);
-				DrawText(NeuronPos, String.valueOf(Utg.Round(neuronvalue[l][n], 2)), "Center", 0, "Bold", FontSize, Color.black);
+				DrawText(NeuronPos, String.valueOf(Util.Round(neuronvalue[l][n], 2)), "Center", 0, "Bold", FontSize, Color.black);
 			}
 		}
 	}
@@ -335,22 +335,22 @@ public class DrawFunctions
 		{
 			for (int i = 0; i <= 12 - 1; i += 1)
 			{
-				Color[] palette = Utg.ColorPalette(2);
+				Color[] palette = Util.ColorPalette(2);
 				if (j == 0)
 				{
-					palette = Utg.AddHue(palette, i * 30 / 360.0, 0, 0);
+					palette = Util.AddHue(palette, i * 30 / 360.0, 0, 0);
 				}
 				if (j == 1)
 				{
-					palette = Utg.AddHue(palette, i * 30 / 360.0, 1, 0);
+					palette = Util.AddHue(palette, i * 30 / 360.0, 1, 0);
 				}
 				if (j == 2)
 				{
-					palette = Utg.AddHue(palette, i * 30 / 360.0, 0, 1);
+					palette = Util.AddHue(palette, i * 30 / 360.0, 0, 1);
 				}
 				if (j == 3)
 				{
-					palette = Utg.toGrayScale(palette);
+					palette = Util.toGrayScale(palette);
 				}
 				DrawColorPalette(new int[] {Pos[0] + 100 * i, Pos[1] + 160 * j}, palette);
 			}

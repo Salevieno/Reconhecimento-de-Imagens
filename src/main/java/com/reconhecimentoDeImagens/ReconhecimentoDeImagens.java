@@ -1,4 +1,4 @@
-package Main;
+package com.reconhecimentoDeImagens;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -16,7 +16,6 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -25,8 +24,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
-import Components.Category;
-import Graphics.DrawFunctions;
+import com.graphics.DrawFunctions;
 
 
 public class ReconhecimentoDeImagens extends JFrame implements ActionListener
@@ -67,7 +65,7 @@ public class ReconhecimentoDeImagens extends JFrame implements ActionListener
 		
 		/* Defining Buttons */
 		Color BackgroundColor = Color.cyan;
-		JButton PlayButton = Utg.AddButton(PlayIcon, new int[2], new int[] {30, 30}, BackgroundColor);
+		JButton PlayButton = Util.AddButton(PlayIcon, new int[2], new int[] {30, 30}, BackgroundColor);
 		Container cp = getContentPane();
 		cp.add(PlayButton);
 		
@@ -89,12 +87,12 @@ public class ReconhecimentoDeImagens extends JFrame implements ActionListener
 		Color[][] PixelColor = new Color[imageL][imageH];
 		int[] PixelRed = new int[imageL * imageH], PixelGreen = new int[imageL * imageH], PixelBlue = new int[imageL * imageH];
 		int[] DRedGreen = new int[imageL * imageH], DRedBlue = new int[imageL * imageH], DGreenBlue = new int[imageL * imageH];
-		BufferedImage Bimage = Utg.toBufferedImage(image);
+		BufferedImage Bimage = Util.toBufferedImage(image);
 		for (int i = 0; i <= imageL - 1; i += 1)
 		{
 			for (int j = 0; j <= imageH - 1; j += 1)
 			{
-				PixelColor[i][j] = Utg.GetPixelColor(Bimage, new int[] {i, j});
+				PixelColor[i][j] = Util.GetPixelColor(Bimage, new int[] {i, j});
 				PixelRed[i * imageH + j] = PixelColor[i][j].getRed();
 				PixelGreen[i * imageH + j] = PixelColor[i][j].getGreen();
 				PixelBlue[i * imageH + j] = PixelColor[i][j].getBlue();
@@ -106,19 +104,19 @@ public class ReconhecimentoDeImagens extends JFrame implements ActionListener
 		
 		int RedMin = -1, RedMax = -1, GreenMin = -1, GreenMax = -1, BlueMin = -1, BlueMax = -1;
 		int DRedGreenMin = -1, DRedGreenMax = -1, DRedBlueMin = -1, DRedBlueMax = -1, DGreenBlueMin = -1, DGreenBlueMax = -1;
-		RedMin = Utg.FindMin(PixelRed);
-		RedMax = Utg.FindMax(PixelRed);
-		GreenMin = Utg.FindMin(PixelGreen);
-		GreenMax = Utg.FindMax(PixelGreen);
-		BlueMin = Utg.FindMin(PixelBlue);
-		BlueMax = Utg.FindMax(PixelBlue);
+		RedMin = Util.FindMin(PixelRed);
+		RedMax = Util.FindMax(PixelRed);
+		GreenMin = Util.FindMin(PixelGreen);
+		GreenMax = Util.FindMax(PixelGreen);
+		BlueMin = Util.FindMin(PixelBlue);
+		BlueMax = Util.FindMax(PixelBlue);
 		
-		DRedGreenMin = Utg.FindMin(DRedGreen);
-		DRedGreenMax = Utg.FindMax(DRedGreen);
-		DRedBlueMin = Utg.FindMin(DRedBlue);
-		DRedBlueMax = Utg.FindMax(DRedBlue);
-		DGreenBlueMin = Utg.FindMin(DGreenBlue);
-		DGreenBlueMax = Utg.FindMax(DGreenBlue);
+		DRedGreenMin = Util.FindMin(DRedGreen);
+		DRedGreenMax = Util.FindMax(DRedGreen);
+		DRedBlueMin = Util.FindMin(DRedBlue);
+		DRedBlueMax = Util.FindMax(DRedBlue);
+		DGreenBlueMin = Util.FindMin(DGreenBlue);
+		DGreenBlueMax = Util.FindMax(DGreenBlue);
 		System.out.println("Red range: " + RedMin + " to " + RedMax);
 		System.out.println("Green range: " + GreenMin + " to " + GreenMax);
 		System.out.println("Blue range: " + BlueMin + " to " + BlueMax);
@@ -145,7 +143,7 @@ public class ReconhecimentoDeImagens extends JFrame implements ActionListener
 			DistToCat[cat] = Math.sqrt(Math.pow(PixelColor.getRed() - CatAvr[cat][0], 2) + Math.pow(PixelColor.getGreen() - CatAvr[cat][1], 2) + Math.pow(PixelColor.getBlue() - CatAvr[cat][2], 2));
 			DistToCat[cat] += Math.sqrt(Math.pow(PixelDRedGreen - CatDAvr[cat][0], 2) + Math.pow(PixelDRedBlue - CatDAvr[cat][1], 2) + Math.pow(PixelDGreenblue - CatDAvr[cat][2], 2));
 		}
-		ClosestCatId = Utg.FindMinIndex(DistToCat);
+		ClosestCatId = Util.FindMinIndex(DistToCat);
 		
 		return Cat[ClosestCatId].getName();
 	}
@@ -154,7 +152,7 @@ public class ReconhecimentoDeImagens extends JFrame implements ActionListener
 	{
 		int[][] AdjPixels = null;
 		
-		AdjPixels = Utg.AddElem(AdjPixels, FirstPixel);
+		AdjPixels = Util.AddElem(AdjPixels, FirstPixel);
 		/*for (int i = 0; i <= AdjPixels.length - 1; i += 1)
 		{
 			int[] LeftPixel = new int[] {AdjPixels[i][0] - 1, AdjPixels[i][1]};
@@ -196,7 +194,7 @@ public class ReconhecimentoDeImagens extends JFrame implements ActionListener
 		{
 			dist[cat] = Math.abs(output - Catpoint[cat]);
 		}
-		int ClosestCat = Utg.FindMinIndex(dist);
+		int ClosestCat = Util.FindMinIndex(dist);
 		return Categories[ClosestCat];
 	}
 	
@@ -224,10 +222,10 @@ public class ReconhecimentoDeImagens extends JFrame implements ActionListener
 		}
 		for (int layer = 1; layer <= Nlayers - 1; layer += 1)
 		{
-			neuronvalue[layer] = Utg.VecMatrixProd(neuronvalue[layer - 1], weight[layer - 1]);
+			neuronvalue[layer] = Util.VecMatrixProd(neuronvalue[layer - 1], weight[layer - 1]);
 			for (int n = 0; n <= Nneurons[layer] - 1; n += 1)
 			{
-				neuronvalue[layer][n] = Utg.act(neuronvalue[layer][n]);
+				neuronvalue[layer][n] = Util.act(neuronvalue[layer][n]);
 			}
 		}
 		output = neuronvalue[Nlayers - 1][0];
@@ -238,7 +236,7 @@ public class ReconhecimentoDeImagens extends JFrame implements ActionListener
 	
 	public static Image ChangeImageColor(Image image, float[] area, int l, int h, Color[][] NewColor)
 	{
-		BufferedImage BufferedFile = Utg.toBufferedImage(image);
+		BufferedImage BufferedFile = Util.toBufferedImage(image);
 		
 		for (int i = (int)(area[0]*l); i <= (int)(area[2]*l) - 1; i += 1)
 		{
@@ -260,7 +258,7 @@ public class ReconhecimentoDeImagens extends JFrame implements ActionListener
 		{
 			for (int j = 0; j <= image.getHeight(null) - 1; j += 1)
 			{
-				Color PixelColor = Utg.GetPixelColor(image, new int[] {i, j});
+				Color PixelColor = Util.GetPixelColor(image, new int[] {i, j});
 				int luminance = (PixelColor.getRed() + PixelColor.getGreen() + PixelColor.getBlue()) / 3;
 				Color newColor = new Color (luminance, luminance, luminance);
 				newImage.setRGB(i, j, newColor.getRGB());
@@ -281,7 +279,7 @@ public class ReconhecimentoDeImagens extends JFrame implements ActionListener
 			for (int j = (int)(area[1]*ImageH); j <= (int)(area[3]*ImageH) - 1; j += 1)
 			{
 				NewPixelClass[i][j] = PixelClass[i][j];
-				PixelColor[i][j] = Utg.GetPixelColor(image, new int[] {i, j});
+				PixelColor[i][j] = Util.GetPixelColor(image, new int[] {i, j});
 			}
 		}
 		for (int i = (int)(area[0]*ImageL) + 1; i <= (int)(area[2]*ImageL) - 2; i += 1)
@@ -432,7 +430,7 @@ public class ReconhecimentoDeImagens extends JFrame implements ActionListener
 		{
 			for (int j = (int)(area[1]*h); j <= (int)(area[3]*h) - 1; j += 1)
 			{
-				Color PixelColor = Utg.GetPixelColor(image, new int[] {i, j});
+				Color PixelColor = Util.GetPixelColor(image, new int[] {i, j});
 				int PixelDRedGreen = PixelColor.getRed() - PixelColor.getGreen();
 				int PixelDRedBlue = PixelColor.getRed() - PixelColor.getBlue();
 				int PixelDGreenblue = PixelColor.getGreen() - PixelColor.getBlue();
@@ -467,7 +465,7 @@ public class ReconhecimentoDeImagens extends JFrame implements ActionListener
 		{
 			for (int j = (int)(area[1]*h); j <= (int)(area[3]*h) - 1; j += 1)
 			{
-				Color PixelColor = Utg.GetPixelColor(image, new int[] {i, j});
+				Color PixelColor = Util.GetPixelColor(image, new int[] {i, j});
 				PixelClassification[i][j] = TrainedANNForwardPropagation(new double[] {PixelColor.getRed(), PixelColor.getGreen(), PixelColor.getBlue()});
 			}
 		}
@@ -501,7 +499,7 @@ public class ReconhecimentoDeImagens extends JFrame implements ActionListener
 		Color[][] PixelNewColor = new Color[NPixels[0]][NPixels[1]];
 
 		//PixelClassification = PixelClassification(Utg.toBufferedImage(OriginalImage), area, ImageL, ImageH, NPixels, Cat);
-		PixelClassification = IntelligentPixelClassification(Utg.toBufferedImage(OriginalImage), area, ImageL, ImageH, NPixels, Cat);		
+		PixelClassification = IntelligentPixelClassification(Util.toBufferedImage(OriginalImage), area, ImageL, ImageH, NPixels, Cat);		
 		System.out.println("Pixels classificados!");
 		//PixelClassification = FindRoofContour(Utg.toBufferedImage(OriginalImage), area, ImageL, ImageH, PixelClassification);
 		//System.out.println("Contorno dos telhados encontrados!");
@@ -509,16 +507,16 @@ public class ReconhecimentoDeImagens extends JFrame implements ActionListener
 		{
 			for (int j = (int)(area[1]*ImageH); j <= (int)(area[3]*ImageH) - 1; j += 1)
 			{
-				PixelNewColor[i][j] = Cat[Utg.IndexOf(Cats, PixelClassification[i][j])].getcolor();
+				PixelNewColor[i][j] = Cat[Util.IndexOf(Cats, PixelClassification[i][j])].getcolor();
 			}
 		}
 		System.out.println("Pixels recoloridos!");
 		ModifiedImage = ChangeImageColor(OriginalImage, area, ImageL, ImageH, PixelNewColor);
 		System.out.println("Nova imagem gerada!");
 		//int NRoofs = CountRoofs(Utg.toBufferedImage(ModifiedImage), PixelClassification);
-		//System.out.println("N�mero de telhados: " + NRoofs);
-		GrayScaleImage1 = toGrayScale1(Utg.toBufferedImage(OriginalImage));
-		GrayScaleImage2 = Utg.toGrayScale(Utg.toBufferedImage(OriginalImage));
+		//System.out.println("Nï¿½mero de telhados: " + NRoofs);
+		GrayScaleImage1 = toGrayScale1(Util.toBufferedImage(OriginalImage));
+		GrayScaleImage2 = Util.toGrayScale(Util.toBufferedImage(OriginalImage));
 	}
 	
 	public void DrawResults(Image OriginalImage, Image ModifiedImage)
@@ -576,8 +574,8 @@ public class ReconhecimentoDeImagens extends JFrame implements ActionListener
 	    {
 			public void mousePressed(MouseEvent evt)
 			{
-				int[] MousePos = Utg.GetRelMousePos(new int[] {0, 114});
-				Color PixelColor = Utg.GetPixelColor(Utg.toBufferedImage(ModifiedImage), new int[] {MousePos[0] - 24, MousePos[1] - 50});
+				int[] MousePos = Util.GetRelMousePos(new int[] {0, 114});
+				Color PixelColor = Util.GetPixelColor(Util.toBufferedImage(ModifiedImage), new int[] {MousePos[0] - 24, MousePos[1] - 50});
 				System.out.println(PixelColor.getRed() + " " + PixelColor.getGreen() + " " + PixelColor.getBlue());
 			}
 			public void mouseReleased(MouseEvent evt) 

@@ -1,7 +1,7 @@
-package Main;
+package com.reconhecimentoDeImagens;
 import javax.swing.JFrame;
 
-public class MainRecImagens extends JFrame
+public class Main extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 

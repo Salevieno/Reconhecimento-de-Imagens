@@ -1,4 +1,4 @@
-package Main;
+package com.reconhecimentoDeImagens;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -29,7 +29,7 @@ import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-public abstract class Utg 
+public abstract class Util 
 {	
 	/* Color and image methods */
 	
@@ -241,7 +241,7 @@ public abstract class Utg
 		linGreen = GamaDecompress(OriginalColor.getGreen() / 255.0);
 		linBlue = GamaDecompress(OriginalColor.getBlue() / 255.0);				
 		double linLuminance = 0.2126 * linRed + 0.7152 * linGreen + 0.0722 * linBlue;
-		int luminance = (int) (255 * Utg.GamaCompress(linLuminance));
+		int luminance = (int) (255 * Util.GamaCompress(linLuminance));
 		newColor = new Color (luminance, luminance, luminance);
 		
 		return newColor;
@@ -258,7 +258,7 @@ public abstract class Utg
 			linGreen = GamaDecompress(OriginalColor[c].getGreen() / 255.0);
 			linBlue = GamaDecompress(OriginalColor[c].getBlue() / 255.0);				
 			double linLuminance = 0.2126 * linRed + 0.7152 * linGreen + 0.0722 * linBlue;
-			int luminance = (int) (255 * Utg.GamaCompress(linLuminance));
+			int luminance = (int) (255 * Util.GamaCompress(linLuminance));
 			newColor[c] = new Color (luminance, luminance, luminance);
 		}
 		
@@ -273,13 +273,13 @@ public abstract class Utg
 		{
 			for (int j = 0; j <= image.getHeight(null) - 1; j += 1)
 			{
-				Color PixelColor = Utg.GetPixelColor(image, new int[] {i, j});
+				Color PixelColor = Util.GetPixelColor(image, new int[] {i, j});
 				double linRed, linGreen, linBlue;
 				linRed = GamaDecompress(PixelColor.getRed() / 255.0);
 				linGreen = GamaDecompress(PixelColor.getGreen() / 255.0);
 				linBlue = GamaDecompress(PixelColor.getBlue() / 255.0);				
 				double linLuminance = 0.2126 * linRed + 0.7152 * linGreen + 0.0722 * linBlue;
-				int luminance = (int) (255 * Utg.GamaCompress(linLuminance));
+				int luminance = (int) (255 * Util.GamaCompress(linLuminance));
 				Color newColor = new Color (luminance, luminance, luminance);
 				newImage.setRGB(i, j, newColor.getRGB());
 			}
@@ -1394,16 +1394,16 @@ public abstract class Utg
 		if (Language.equals("P"))
 		{
 			Cats[0] = "* *";
-			Cats[1] = "* Bestiário *";
+			Cats[1] = "* Bestiï¿½rio *";
 			Cats[2] = "* Novo jogo *";
 			Cats[3] = "* Tutorial *";
 			Cats[4] = "* Classes *";
 			Cats[5] = "* ProClasses *";
 			Cats[6] = "* Atributos *";
-			Cats[7] = "* Estatísticas do jogador *";
+			Cats[7] = "* Estatï¿½sticas do jogador *";
 			Cats[8] = "* Propriedades dos atributos especiais *";
 			Cats[9] = "* Coleta *";
-			Cats[10] = "* Vitória *";
+			Cats[10] = "* Vitï¿½ria *";
 			Cats[11] = "* Equipamentos *";
 			Cats[12] = "* Doutor *";
 			Cats[13] = "* Vendedor de equipamentos *";
@@ -1427,33 +1427,33 @@ public abstract class Utg
 			Cats[31] = "* Pterodactile *";
 			Cats[32] = "* Nomes dos continentes *";
 			Cats[33] = "* Mensagem das placas *";
-			Cats[34] = "* Menu de personalização *";
+			Cats[34] = "* Menu de personalizaï¿½ï¿½o *";
 			Cats[35] = "* Menu de quest *";
-			Cats[36] = "* Menu de opções *";
+			Cats[36] = "* Menu de opï¿½ï¿½es *";
 			Cats[37] = "* Menu de dicas *";
-			Cats[38] = "* Dimensões *";
+			Cats[38] = "* Dimensï¿½es *";
 			Cats[39] = "* Cores *";
 			Cats[40] = "* Janela do jogador *";
-			Cats[41] = "* Cidadão 0 *";
-			Cats[42] = "* Cidadão 1 *";
-			Cats[43] = "* Cidadão 2 *";
-			Cats[44] = "* Cidadão 3 *";
-			Cats[45] = "* Cidadão 4 *";
-			Cats[46] = "* Cidadão 5 *";
-			Cats[47] = "* Cidadão 6 *";
-			Cats[48] = "* Cidadão 7 *";
-			Cats[49] = "* Cidadão 8 *";
-			Cats[50] = "* Cidadão 9 *";
-			Cats[51] = "* Cidadão 10 *";
-			Cats[52] = "* Cidadão 11 *";
-			Cats[53] = "* Cidadão 12 *";
-			Cats[54] = "* Cidadão 13 *";
-			Cats[55] = "* Cidadão 14 *";
-			Cats[56] = "* Cidadão 15 *";
-			Cats[57] = "* Cidadão 16 *";
-			Cats[58] = "* Cidadão 17 *";
-			Cats[59] = "* Cidadão 18 *";
-			Cats[60] = "* Cidadão 19 *";
+			Cats[41] = "* Cidadï¿½o 0 *";
+			Cats[42] = "* Cidadï¿½o 1 *";
+			Cats[43] = "* Cidadï¿½o 2 *";
+			Cats[44] = "* Cidadï¿½o 3 *";
+			Cats[45] = "* Cidadï¿½o 4 *";
+			Cats[46] = "* Cidadï¿½o 5 *";
+			Cats[47] = "* Cidadï¿½o 6 *";
+			Cats[48] = "* Cidadï¿½o 7 *";
+			Cats[49] = "* Cidadï¿½o 8 *";
+			Cats[50] = "* Cidadï¿½o 9 *";
+			Cats[51] = "* Cidadï¿½o 10 *";
+			Cats[52] = "* Cidadï¿½o 11 *";
+			Cats[53] = "* Cidadï¿½o 12 *";
+			Cats[54] = "* Cidadï¿½o 13 *";
+			Cats[55] = "* Cidadï¿½o 14 *";
+			Cats[56] = "* Cidadï¿½o 15 *";
+			Cats[57] = "* Cidadï¿½o 16 *";
+			Cats[58] = "* Cidadï¿½o 17 *";
+			Cats[59] = "* Cidadï¿½o 18 *";
+			Cats[60] = "* Cidadï¿½o 19 *";
 			Cats[61] = "* Barra de habilidades *";
 			Cats[62] = "* Navegador 2*";
 			for (int i = 0; i <= AllText.length - 1; i += 1)

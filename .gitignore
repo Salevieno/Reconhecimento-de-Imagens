@@ -6,6 +6,7 @@ lib/
 bin/
 out/
 build/
+target/
 
 # VS Code
 .vscode/
@@ -14,6 +15,9 @@ build/
 .project
 .classpath
 .settings/
+!.settings/
+.settings/*
+!.settings/org.eclipse.core.resources.prefs
 
 # Sistema operacional
 .DS_Store
