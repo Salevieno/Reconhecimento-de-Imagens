@@ -23,17 +23,17 @@ public class MainFrame extends JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE) ;
     }
 	
-	public static void create()
+    public static void create()
 	{
 		if (mainFrame != null) { return ;}
 
         mainFrame = new MainFrame();
 
-        ButtonsPanel.create(SIZE);
-        mainFrame.add(ButtonsPanel.getInstance(), BorderLayout.NORTH);
-
         MainPanel.create(SIZE);
         mainFrame.add(MainPanel.getInstance(), BorderLayout.CENTER);
+
+        ButtonsPanel.create(SIZE);
+        mainFrame.add(ButtonsPanel.getInstance(), BorderLayout.NORTH);
 
         mainFrame.setVisible(true);
 	}

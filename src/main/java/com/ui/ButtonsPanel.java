@@ -3,7 +3,6 @@ package com.ui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,21 +10,23 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import com.app.Application;
+import com.app.ImageProcessingService;
 
 public class ButtonsPanel extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 
+    private final ImageProcessingService processingService ;
+	private JButton playButton;
 	private static ButtonsPanel buttonsPanel ;
 	private static final String IMG_PATH = ".\\Icons\\";
-	private JButton playButton;
 	
 	private ButtonsPanel()
 	{
         setLayout(new FlowLayout(FlowLayout.CENTER)) ;
-        this.add(createPlayButton());
+		this.add(createPlayButton()) ;
 		setFocusable(true) ;
+        this.processingService = new ImageProcessingService(new ImageIcon("teste.png").getImage()) ;
 	}
 	
 	protected static void create(Dimension size)
@@ -37,7 +38,7 @@ public class ButtonsPanel extends JPanel
 
 	public static ButtonsPanel getInstance() { return buttonsPanel ;}
     
-    private JButton createPlayButton()
+	private JButton createPlayButton()
     {
         ImageIcon playIcon = new ImageIcon(IMG_PATH + "PlayIcon.png");
 		playButton = createButton(playIcon, new int[2], new int[] {30, 30}, Color.cyan) ;
@@ -47,35 +48,7 @@ public class ButtonsPanel extends JPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
-				Application.runAsync(new Application.ProcessingListener()
-				{
-					@Override
-					public void processingStarted()
-					{
-						playButton.setEnabled(false);
-						MainPanel.getInstance().updateStatus("Processando imagem...");
-					}
-
-					@Override
-					public void processingSucceeded(Image image, double elapsedMilliseconds)
-					{
-						MainPanel.getInstance().updateProcessedImage(image);
-						MainPanel.getInstance().updateStatus(
-								String.format("Processamento concluido em %.2f ms", elapsedMilliseconds));
-					}
-
-					@Override
-					public void processingFailed(Exception exception)
-					{
-						MainPanel.getInstance().updateStatus("Falha ao processar imagem: " + exception.getMessage());
-					}
-
-					@Override
-					public void processingFinished()
-					{
-						playButton.setEnabled(true);
-					}
-				}) ;
+				processingService.runAsync(new ProcessingUiListener(playButton)) ;
             }
         });
 
