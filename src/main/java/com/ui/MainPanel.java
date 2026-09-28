@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.JPanel;
+import javax.swing.JLabel;
 
 import com.graphics.DrawFunctions;
 
@@ -14,9 +15,12 @@ public class MainPanel extends JPanel
 
 	private static MainPanel mainPanel ;
     private Image processedImage ;
+    private final JLabel statusLabel;
 	
 	private MainPanel()
 	{
+        statusLabel = new JLabel("Aguardando processamento");
+        add(statusLabel);
 		setFocusable(true) ;
 	}
 	
@@ -33,6 +37,11 @@ public class MainPanel extends JPanel
     {
         processedImage = image ;
         repaint() ;
+    }
+
+    public void updateStatus(String status)
+    {
+        statusLabel.setText(status);
     }
 
     @Override

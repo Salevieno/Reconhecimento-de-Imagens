@@ -3,6 +3,7 @@ package com.ui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -18,6 +19,7 @@ public class ButtonsPanel extends JPanel
 
 	private static ButtonsPanel buttonsPanel ;
 	private static final String IMG_PATH = ".\\Icons\\";
+	private JButton playButton;
 	
 	private ButtonsPanel()
 	{
@@ -38,14 +40,42 @@ public class ButtonsPanel extends JPanel
     private JButton createPlayButton()
     {
         ImageIcon playIcon = new ImageIcon(IMG_PATH + "PlayIcon.png");
-        JButton playButton = createButton(playIcon, new int[2], new int[] {30, 30}, Color.cyan) ;
+		playButton = createButton(playIcon, new int[2], new int[] {30, 30}, Color.cyan) ;
 
         playButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                Application.run() ;
+				Application.runAsync(new Application.ProcessingListener()
+				{
+					@Override
+					public void processingStarted()
+					{
+						playButton.setEnabled(false);
+						MainPanel.getInstance().updateStatus("Processando imagem...");
+					}
+
+					@Override
+					public void processingSucceeded(Image image, double elapsedMilliseconds)
+					{
+						MainPanel.getInstance().updateProcessedImage(image);
+						MainPanel.getInstance().updateStatus(
+								String.format("Processamento concluido em %.2f ms", elapsedMilliseconds));
+					}
+
+					@Override
+					public void processingFailed(Exception exception)
+					{
+						MainPanel.getInstance().updateStatus("Falha ao processar imagem: " + exception.getMessage());
+					}
+
+					@Override
+					public void processingFinished()
+					{
+						playButton.setEnabled(true);
+					}
+				}) ;
             }
         });
 
