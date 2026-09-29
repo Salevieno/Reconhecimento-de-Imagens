@@ -14,12 +14,13 @@ public class MainPanel extends JPanel
 	private static final long serialVersionUID = 1L;
 
 	private static MainPanel mainPanel ;
+    private Image originalImage;
     private Image processedImage ;
     private final JLabel statusLabel;
 	
 	private MainPanel()
 	{
-        statusLabel = new JLabel("Aguardando processamento");
+        statusLabel = new JLabel("Adicione uma imagem para iniciar o processo");
         add(statusLabel);
 		setFocusable(true) ;
 	}
@@ -39,6 +40,17 @@ public class MainPanel extends JPanel
         repaint() ;
     }
 
+    public void updateOriginalImage(Image image)
+    {
+        originalImage = image;
+        repaint();
+    }
+
+    public void clearProcessedImage()
+    {
+        updateProcessedImage(null);
+    }
+
     public void updateStatus(String status)
     {
         statusLabel.setText(status);
@@ -49,9 +61,21 @@ public class MainPanel extends JPanel
     {
         super.paintComponent(g);
         DrawFunctions DF = new DrawFunctions(g) ; // TODO
-        if (processedImage != null)
+        if (originalImage != null)
         {
-            DF.DrawImage(processedImage, new int[] {250,  50 + processedImage.getHeight(null)}, "Left");
+            int imageTop = 60;
+            int originalLeft = 50;
+            DF.DrawImage(originalImage,
+                    new int[] {originalLeft, imageTop + originalImage.getHeight(null)}, "Left");
+            g.drawString("Original", originalLeft, imageTop - 8);
+
+            if (processedImage != null)
+            {
+                int processedLeft = originalLeft + originalImage.getWidth(null) + 40;
+                DF.DrawImage(processedImage,
+                        new int[] {processedLeft, imageTop + processedImage.getHeight(null)}, "Left");
+                g.drawString("Processada", processedLeft, imageTop - 8);
+            }
         }
     }
 }

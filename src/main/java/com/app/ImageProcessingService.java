@@ -1,6 +1,8 @@
 package com.app;
 
 import java.awt.Image;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -32,7 +34,7 @@ public final class ImageProcessingService
             protected ProcessingResult doInBackground()
             {
                 long initialTime = System.nanoTime();
-                Image processedImage = ImageProcessor.processImage(originalImage);
+                Image processedImage = ImageProcessor.processImage(copyImage(originalImage));
                 double elapsedMilliseconds = (System.nanoTime() - initialTime) / 1_000_000.0;
                 return new ProcessingResult(processedImage, elapsedMilliseconds);
             }
@@ -67,6 +69,23 @@ public final class ImageProcessingService
         }.execute();
 
         return true;
+    }
+
+    private static BufferedImage copyImage(Image image)
+    {
+        int width = image.getWidth(null);
+        int height = image.getHeight(null);
+        BufferedImage copy = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D graphics = copy.createGraphics();
+        try
+        {
+            graphics.drawImage(image, 0, 0, null);
+        }
+        finally
+        {
+            graphics.dispose();
+        }
+        return copy;
     }
 
     private record ProcessingResult(Image image, double elapsedMilliseconds)

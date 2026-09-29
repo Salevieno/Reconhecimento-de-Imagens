@@ -11,11 +11,13 @@ import com.app.IProcessingListener;
 final class ProcessingUiListener implements IProcessingListener
 {
     private final JButton playButton;
+    private final JButton addImageButton;
     private final MainPanel mainPanel;
 
-    ProcessingUiListener(JButton playButton)
+    ProcessingUiListener(JButton playButton, JButton addImageButton)
     {
         this.playButton = playButton;
+        this.addImageButton = addImageButton;
         this.mainPanel = MainPanel.getInstance() ;
     }
 
@@ -23,6 +25,7 @@ final class ProcessingUiListener implements IProcessingListener
     public void processingStarted()
     {
         playButton.setEnabled(false);
+        addImageButton.setEnabled(false);
         mainPanel.updateStatus("Processando imagem...");
     }
 
@@ -44,5 +47,6 @@ final class ProcessingUiListener implements IProcessingListener
     public void processingFinished()
     {
         playButton.setEnabled(true);
+        addImageButton.setEnabled(true);
     }
 }
