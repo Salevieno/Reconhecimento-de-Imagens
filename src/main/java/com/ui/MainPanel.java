@@ -7,11 +7,15 @@ import java.awt.Image;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
-import com.graphics.DrawFunctions;
-
 public class MainPanel extends JPanel
 {
 	private static final long serialVersionUID = 1L;
+    private static final int MAX_DISPLAY_WIDTH = 800;
+    private static final int MAX_DISPLAY_HEIGHT = 800;
+    private static final int IMAGE_LEFT_MARGIN = 50;
+    private static final int IMAGE_GAP = 40;
+    private static final int IMAGE_TOP = 60;
+    private static final int IMAGE_BOTTOM_MARGIN = 50;
 
 	private static MainPanel mainPanel ;
     private Image originalImage;
@@ -60,22 +64,40 @@ public class MainPanel extends JPanel
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
-        DrawFunctions DF = new DrawFunctions(g) ; // TODO
-        if (originalImage != null)
-        {
-            int imageTop = 60;
-            int originalLeft = 50;
-            DF.DrawImage(originalImage,
-                    new int[] {originalLeft, imageTop + originalImage.getHeight(null)}, "Left");
-            g.drawString("Original", originalLeft, imageTop - 8);
+        if (originalImage == null) { return ;}
 
-            if (processedImage != null)
-            {
-                int processedLeft = originalLeft + originalImage.getWidth(null) + 40;
-                DF.DrawImage(processedImage,
-                        new int[] {processedLeft, imageTop + processedImage.getHeight(null)}, "Left");
-                g.drawString("Processada", processedLeft, imageTop - 8);
-            }
+        int maxDisplayWidth = Math.min(MAX_DISPLAY_WIDTH,
+                (getWidth() - 2 * IMAGE_LEFT_MARGIN - IMAGE_GAP) / 2);
+        int maxDisplayHeight = Math.min(MAX_DISPLAY_HEIGHT,
+                getHeight() - IMAGE_TOP - IMAGE_BOTTOM_MARGIN);
+
+        if (maxDisplayWidth <= 0 || maxDisplayHeight <= 0) { return ;}
+
+        int largestImageWidth = originalImage.getWidth(null);
+        int largestImageHeight = originalImage.getHeight(null);
+        if (processedImage != null)
+        {
+            largestImageWidth = Math.max(largestImageWidth, processedImage.getWidth(null));
+            largestImageHeight = Math.max(largestImageHeight, processedImage.getHeight(null));
+        }
+
+        double scale = Math.min(1.0, Math.min(
+                maxDisplayWidth / (double) largestImageWidth,
+                maxDisplayHeight / (double) largestImageHeight));
+        int originalWidth = Math.max(1, (int) Math.round(originalImage.getWidth(null) * scale));
+        int originalHeight = Math.max(1, (int) Math.round(originalImage.getHeight(null) * scale));
+        int originalLeft = IMAGE_LEFT_MARGIN;
+        g.drawImage(originalImage, originalLeft, IMAGE_TOP, originalWidth, originalHeight, this);
+        g.drawString("Original", originalLeft, IMAGE_TOP - 8);
+
+        if (processedImage != null)
+        {
+            int processedWidth = Math.max(1, (int) Math.round(processedImage.getWidth(null) * scale));
+            int processedHeight = Math.max(1, (int) Math.round(processedImage.getHeight(null) * scale));
+            int processedLeft = originalLeft + originalWidth + IMAGE_GAP;
+            g.drawImage(processedImage, processedLeft, IMAGE_TOP,
+                    processedWidth, processedHeight, this);
+            g.drawString("Processada", processedLeft, IMAGE_TOP - 8);
         }
     }
 }
