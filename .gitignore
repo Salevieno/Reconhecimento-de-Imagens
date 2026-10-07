@@ -8,6 +8,9 @@ out/
 build/
 target/
 
+# Imagens de exemplo
+examples/
+
 # VS Code
 .vscode/
 
